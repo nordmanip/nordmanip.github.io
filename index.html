@@ -1,0 +1,718 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Nordic Robotic Manipulation Network</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,400;0,9..40,500;0,9..40,600;1,9..40,400&family=Instrument+Serif:ital@0;1&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --color-bg: #f8f9fa;
+            --color-bg-alt: #ffffff;
+            --color-text: #1a1a2e;
+            --color-text-muted: #4a4a68;
+            --color-accent: #2d5a7b;
+            --color-accent-light: #4a8db7;
+            --color-highlight: #c9e4f6;
+            --color-border: #e1e5eb;
+            --font-display: 'Instrument Serif', Georgia, serif;
+            --font-body: 'DM Sans', -apple-system, sans-serif;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: var(--font-body);
+            background-color: var(--color-bg);
+            color: var(--color-text);
+            line-height: 1.7;
+            font-size: 17px;
+        }
+
+        /* Navigation */
+        nav {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            background: rgba(248, 249, 250, 0.92);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            z-index: 1000;
+            border-bottom: 1px solid var(--color-border);
+        }
+
+        .nav-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 1rem 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .nav-logo {
+            font-family: var(--font-display);
+            font-size: 1.25rem;
+            color: var(--color-accent);
+            text-decoration: none;
+            font-weight: 400;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 2.5rem;
+            list-style: none;
+        }
+
+        .nav-links a {
+            color: var(--color-text-muted);
+            text-decoration: none;
+            font-size: 0.95rem;
+            font-weight: 500;
+            transition: color 0.2s ease;
+        }
+
+        .nav-links a:hover {
+            color: var(--color-accent);
+        }
+
+        /* Hero Section */
+        .hero {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 8rem 2rem 4rem;
+            background: linear-gradient(180deg, var(--color-bg) 0%, var(--color-bg-alt) 100%);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            right: -20%;
+            width: 800px;
+            height: 800px;
+            background: radial-gradient(circle, var(--color-highlight) 0%, transparent 70%);
+            opacity: 0.5;
+            pointer-events: none;
+        }
+
+        .hero-content {
+            max-width: 900px;
+            text-align: center;
+            position: relative;
+            z-index: 1;
+        }
+
+        .hero-badge {
+            display: inline-block;
+            padding: 0.5rem 1.25rem;
+            background: var(--color-highlight);
+            color: var(--color-accent);
+            border-radius: 100px;
+            font-size: 0.85rem;
+            font-weight: 600;
+            letter-spacing: 0.03em;
+            margin-bottom: 2rem;
+            animation: fadeInUp 0.8s ease both;
+        }
+
+        .hero h1 {
+            font-family: var(--font-display);
+            font-size: clamp(3rem, 7vw, 5rem);
+            font-weight: 400;
+            line-height: 1.1;
+            margin-bottom: 1.5rem;
+            color: var(--color-text);
+            animation: fadeInUp 0.8s ease 0.1s both;
+        }
+
+        .hero h1 em {
+            color: var(--color-accent);
+            font-style: italic;
+        }
+
+        .hero-subtitle {
+            font-size: 1.25rem;
+            color: var(--color-text-muted);
+            max-width: 600px;
+            margin: 0 auto 2.5rem;
+            animation: fadeInUp 0.8s ease 0.2s both;
+        }
+
+        .hero-cta {
+            display: flex;
+            gap: 1rem;
+            justify-content: center;
+            flex-wrap: wrap;
+            animation: fadeInUp 0.8s ease 0.3s both;
+        }
+
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 1rem 2rem;
+            border-radius: 8px;
+            font-size: 1rem;
+            font-weight: 500;
+            text-decoration: none;
+            transition: all 0.25s ease;
+            cursor: pointer;
+            border: none;
+        }
+
+        .btn-primary {
+            background: var(--color-accent);
+            color: white;
+        }
+
+        .btn-primary:hover {
+            background: var(--color-accent-light);
+            transform: translateY(-2px);
+            box-shadow: 0 8px 24px rgba(45, 90, 123, 0.25);
+        }
+
+        .btn-secondary {
+            background: transparent;
+            color: var(--color-text);
+            border: 1.5px solid var(--color-border);
+        }
+
+        .btn-secondary:hover {
+            border-color: var(--color-accent);
+            color: var(--color-accent);
+        }
+
+        /* Sections */
+        section {
+            padding: 6rem 2rem;
+        }
+
+        .container {
+            max-width: 1100px;
+            margin: 0 auto;
+        }
+
+        .section-header {
+            text-align: center;
+            margin-bottom: 4rem;
+        }
+
+        .section-header h2 {
+            font-family: var(--font-display);
+            font-size: 2.75rem;
+            font-weight: 400;
+            margin-bottom: 1rem;
+        }
+
+        .section-header p {
+            color: var(--color-text-muted);
+            max-width: 600px;
+            margin: 0 auto;
+            font-size: 1.1rem;
+        }
+
+        /* About Section */
+        #about {
+            background: var(--color-bg-alt);
+        }
+
+        .about-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 4rem;
+            align-items: center;
+        }
+
+        .about-text p {
+            margin-bottom: 1.5rem;
+            color: var(--color-text-muted);
+        }
+
+        .about-text p:first-of-type {
+            font-size: 1.2rem;
+            color: var(--color-text);
+        }
+
+        .about-stats {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 1.5rem;
+        }
+
+        .stat-card {
+            background: var(--color-bg);
+            padding: 2rem;
+            border-radius: 16px;
+            text-align: center;
+            border: 1px solid var(--color-border);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .stat-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 12px 32px rgba(0, 0, 0, 0.08);
+        }
+
+        .stat-number {
+            font-family: var(--font-display);
+            font-size: 2.5rem;
+            color: var(--color-accent);
+            display: block;
+            margin-bottom: 0.5rem;
+        }
+
+        .stat-label {
+            font-size: 0.9rem;
+            color: var(--color-text-muted);
+            font-weight: 500;
+        }
+
+        /* Research Areas */
+        #research {
+            background: var(--color-bg);
+        }
+
+        .research-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 1.5rem;
+        }
+
+        .research-card {
+            background: var(--color-bg-alt);
+            padding: 2rem;
+            border-radius: 16px;
+            border: 1px solid var(--color-border);
+            transition: all 0.3s ease;
+        }
+
+        .research-card:hover {
+            border-color: var(--color-accent-light);
+            box-shadow: 0 8px 24px rgba(45, 90, 123, 0.1);
+        }
+
+        .research-icon {
+            width: 48px;
+            height: 48px;
+            background: var(--color-highlight);
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 1.25rem;
+            font-size: 1.5rem;
+        }
+
+        .research-card h3 {
+            font-family: var(--font-display);
+            font-size: 1.35rem;
+            margin-bottom: 0.75rem;
+            font-weight: 400;
+        }
+
+        .research-card p {
+            color: var(--color-text-muted);
+            font-size: 0.95rem;
+        }
+
+        /* Activities */
+        #activities {
+            background: var(--color-bg-alt);
+        }
+
+        .activities-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 2rem;
+        }
+
+        .activity-card {
+            background: var(--color-bg);
+            border-radius: 20px;
+            padding: 3rem;
+            border: 1px solid var(--color-border);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .activity-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: linear-gradient(90deg, var(--color-accent), var(--color-accent-light));
+        }
+
+        .activity-card h3 {
+            font-family: var(--font-display);
+            font-size: 1.75rem;
+            margin-bottom: 1rem;
+            font-weight: 400;
+        }
+
+        .activity-card p {
+            color: var(--color-text-muted);
+            margin-bottom: 1.5rem;
+        }
+
+        .activity-details {
+            list-style: none;
+        }
+
+        .activity-details li {
+            padding: 0.75rem 0;
+            border-bottom: 1px solid var(--color-border);
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            font-size: 0.95rem;
+        }
+
+        .activity-details li:last-child {
+            border-bottom: none;
+        }
+
+        .activity-details .icon {
+            color: var(--color-accent);
+            font-size: 1.1rem;
+        }
+
+        /* Join Section */
+        #join {
+            background: linear-gradient(135deg, var(--color-accent) 0%, var(--color-accent-light) 100%);
+            color: white;
+            text-align: center;
+        }
+
+        #join h2 {
+            font-family: var(--font-display);
+            font-size: 2.75rem;
+            font-weight: 400;
+            margin-bottom: 1rem;
+        }
+
+        #join p {
+            opacity: 0.9;
+            max-width: 600px;
+            margin: 0 auto 2rem;
+            font-size: 1.1rem;
+        }
+
+        #join .btn-primary {
+            background: white;
+            color: var(--color-accent);
+        }
+
+        #join .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.2);
+        }
+
+        /* Footer */
+        footer {
+            background: var(--color-text);
+            color: white;
+            padding: 4rem 2rem 2rem;
+        }
+
+        .footer-content {
+            max-width: 1100px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: 2fr 1fr 1fr;
+            gap: 4rem;
+        }
+
+        .footer-brand h3 {
+            font-family: var(--font-display);
+            font-size: 1.5rem;
+            font-weight: 400;
+            margin-bottom: 1rem;
+        }
+
+        .footer-brand p {
+            opacity: 0.7;
+            font-size: 0.95rem;
+            line-height: 1.6;
+        }
+
+        .footer-links h4 {
+            font-size: 0.85rem;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            margin-bottom: 1.25rem;
+            opacity: 0.5;
+        }
+
+        .footer-links ul {
+            list-style: none;
+        }
+
+        .footer-links li {
+            margin-bottom: 0.75rem;
+        }
+
+        .footer-links a {
+            color: white;
+            text-decoration: none;
+            opacity: 0.7;
+            transition: opacity 0.2s ease;
+            font-size: 0.95rem;
+        }
+
+        .footer-links a:hover {
+            opacity: 1;
+        }
+
+        .footer-bottom {
+            max-width: 1100px;
+            margin: 3rem auto 0;
+            padding-top: 2rem;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            text-align: center;
+            opacity: 0.5;
+            font-size: 0.9rem;
+        }
+
+        /* Animations */
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* Responsive */
+        @media (max-width: 900px) {
+            .nav-links {
+                display: none;
+            }
+
+            .about-grid,
+            .activities-grid {
+                grid-template-columns: 1fr;
+                gap: 2rem;
+            }
+
+            .footer-content {
+                grid-template-columns: 1fr;
+                gap: 2rem;
+                text-align: center;
+            }
+        }
+
+        @media (max-width: 600px) {
+            section {
+                padding: 4rem 1.25rem;
+            }
+
+            .hero {
+                padding: 6rem 1.25rem 3rem;
+            }
+
+            .section-header h2 {
+                font-size: 2rem;
+            }
+
+            .about-stats {
+                grid-template-columns: 1fr;
+            }
+
+            .activity-card {
+                padding: 2rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <nav>
+        <div class="nav-container">
+            <a href="#" class="nav-logo">NordManip</a>
+            <ul class="nav-links">
+                <li><a href="#about">About</a></li>
+                <li><a href="#research">Research</a></li>
+                <li><a href="#activities">Activities</a></li>
+                <li><a href="#join">Join Us</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <section class="hero">
+        <div class="hero-content">
+            <span class="hero-badge">🤖 Research Network</span>
+            <h1>Nordic Robotic <em>Manipulation</em> Network</h1>
+            <p class="hero-subtitle">Connecting researchers across Denmark, Finland, Iceland, Norway, and Sweden to advance the science of robotic manipulation.</p>
+            <div class="hero-cta">
+                <a href="#join" class="btn btn-primary">Join the Network</a>
+                <a href="#activities" class="btn btn-secondary">Our Activities</a>
+            </div>
+        </div>
+    </section>
+
+    <section id="about">
+        <div class="container">
+            <div class="about-grid">
+                <div class="about-text">
+                    <h2 style="font-family: var(--font-display); font-size: 2.5rem; font-weight: 400; margin-bottom: 1.5rem;">Building bridges across Nordic robotics</h2>
+                    <p>The Nordic Robotic Manipulation Network brings together researchers from universities and institutes across the Nordic countries who share a passion for advancing robotic manipulation.</p>
+                    <p>Our mission is to foster collaboration, share knowledge, and accelerate progress in manipulation research through regular interactions and annual gatherings. Whether you work on grasping, deformable objects, mobile manipulation, or vision-language-action models, there's a place for you here.</p>
+                    <p>Founded in 2026, we aim to create a vibrant community where ideas flow freely across borders and institutions.</p>
+                </div>
+                <div class="about-stats">
+                    <div class="stat-card">
+                        <span class="stat-number">5</span>
+                        <span class="stat-label">Nordic Countries</span>
+                    </div>
+                    <div class="stat-card">
+                        <span class="stat-number">Biweekly</span>
+                        <span class="stat-label">Reading Groups</span>
+                    </div>
+                    <div class="stat-card">
+                        <span class="stat-number">1</span>
+                        <span class="stat-label">Annual Meetup</span>
+                    </div>
+                    <div class="stat-card">
+                        <span class="stat-number">Open</span>
+                        <span class="stat-label">To All Researchers</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="research">
+        <div class="container">
+            <div class="section-header">
+                <h2>Research Focus Areas</h2>
+                <p>Our network spans the breadth of robotic manipulation research, from foundational grasping to emerging paradigms.</p>
+            </div>
+            <div class="research-grid">
+                <div class="research-card">
+                    <div class="research-icon">🤚</div>
+                    <h3>Grasping &amp; Dexterous Manipulation</h3>
+                    <p>Multi-finger grasping, grasp synthesis, in-hand manipulation, and tactile sensing for robust object handling.</p>
+                </div>
+                <div class="research-card">
+                    <div class="research-icon">👕</div>
+                    <h3>Deformable Object Manipulation</h3>
+                    <p>Cloth handling, rope manipulation, soft object grasping, and state estimation for non-rigid materials.</p>
+                </div>
+                <div class="research-card">
+                    <div class="research-icon">🚗</div>
+                    <h3>Mobile Manipulation</h3>
+                    <p>Whole-body control, navigation-manipulation integration, and manipulation from mobile platforms.</p>
+                </div>
+                <div class="research-card">
+                    <div class="research-icon">🧠</div>
+                    <h3>Vision-Language-Action Models</h3>
+                    <p>Foundation models for manipulation, language-conditioned policies, and generalizable robot learning.</p>
+                </div>
+                <div class="research-card">
+                    <div class="research-icon">📊</div>
+                    <h3>Learning for Manipulation</h3>
+                    <p>Reinforcement learning, imitation learning, sim-to-real transfer, and data-efficient policy learning.</p>
+                </div>
+                <div class="research-card">
+                    <div class="research-icon">🔮</div>
+                    <h3>Perception &amp; Scene Understanding</h3>
+                    <p>Object pose estimation, scene reconstruction, affordance prediction, and visuo-tactile perception.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="activities">
+        <div class="container">
+            <div class="section-header">
+                <h2>Network Activities</h2>
+                <p>Regular touchpoints to share research, discuss papers, and build lasting collaborations.</p>
+            </div>
+            <div class="activities-grid">
+                <div class="activity-card">
+                    <h3>Biweekly Reading Group</h3>
+                    <p>Virtual sessions where we discuss recent papers, share ongoing work, and exchange ideas across institutions.</p>
+                    <ul class="activity-details">
+                        <li><span class="icon">📅</span> Every other Thursday, 14:00 CET</li>
+                        <li><span class="icon">💻</span> Online via Zoom</li>
+                        <li><span class="icon">📄</span> One paper per session with discussion</li>
+                        <li><span class="icon">🎤</span> Rotating presenters from member labs</li>
+                        <li><span class="icon">🌐</span> Open to all network members</li>
+                    </ul>
+                </div>
+                <div class="activity-card">
+                    <h3>Annual In-Person Meetup</h3>
+                    <p>A three-day gathering hosted by a different Nordic institution each year to strengthen connections and spark new collaborations.</p>
+                    <ul class="activity-details">
+                        <li><span class="icon">📍</span> Rotating location across Nordic countries</li>
+                        <li><span class="icon">📆</span> Three days in late spring / early autumn</li>
+                        <li><span class="icon">🎯</span> Keynotes, lab talks, and demos</li>
+                        <li><span class="icon">💬</span> Breakout sessions and networking</li>
+                        <li><span class="icon">🎉</span> Social activities and excursions</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="join">
+        <div class="container">
+            <h2>Join the Network</h2>
+            <p>Are you a researcher working on robotic manipulation in the Nordics? We'd love to have you join our community. Membership is open to PhD students, postdocs, and faculty.</p>
+            <a href="mailto:jens.lundell@utu.fi?subject=Nordic%20Robotic%20Manipulation%20Network%20-%20Join%20Request" class="btn btn-primary">
+                Get in Touch →
+            </a>
+        </div>
+    </section>
+
+    <footer>
+        <div class="footer-content">
+            <div class="footer-brand">
+                <h3>Nordic Robotic Manipulation Network</h3>
+                <p>A research network connecting manipulation researchers across Denmark, Finland, Iceland, Norway, and Sweden.</p>
+            </div>
+            <div class="footer-links">
+                <h4>Navigation</h4>
+                <ul>
+                    <li><a href="#about">About</a></li>
+                    <li><a href="#research">Research Areas</a></li>
+                    <li><a href="#activities">Activities</a></li>
+                    <li><a href="#join">Join Us</a></li>
+                </ul>
+            </div>
+            <div class="footer-links">
+                <h4>Contact</h4>
+                <ul>
+                    <li><a href="mailto:jens.lundell@utu.fi">jens.lundell@utu.fi</a></li>
+                    <li><a href="https://jenslundell.ai" target="_blank">jenslundell.ai</a></li>
+                    <li><a href="https://www.utu.fi/en" target="_blank">University of Turku</a></li>
+                </ul>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>© 2026 Nordic Robotic Manipulation Network. All rights reserved.</p>
+        </div>
+    </footer>
+</body>
+</html>
