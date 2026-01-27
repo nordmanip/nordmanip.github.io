@@ -395,6 +395,109 @@
             font-size: 1.1rem;
         }
 
+        /* Table-Style Past Sessions - One line per presentation with alternating colors */
+        #sessions {
+            background: var(--color-bg);
+        }
+
+        .sessions-list {
+            display: block;
+            background: var(--color-bg-alt);
+            border-radius: 12px;
+            border: 1px solid var(--color-border);
+            overflow: hidden;
+        }
+
+        .session-card {
+            display: grid;
+            grid-template-columns: 140px 1fr 200px 180px;
+            gap: 1.5rem;
+            align-items: center;
+            padding: 1rem 1.5rem;
+            border: none;
+            border-radius: 0;
+            border-bottom: 1px solid var(--color-border);
+            transition: background-color 0.2s ease;
+        }
+
+        .session-card:last-child {
+            border-bottom: none;
+        }
+
+        /* Alternating row colors */
+        .session-card:nth-child(odd) {
+            background: var(--color-bg-alt);
+        }
+
+        .session-card:nth-child(even) {
+            background: #fafbfc;
+        }
+
+        .session-card:hover {
+            background: var(--color-highlight);
+        }
+
+        /* Remove the session-header wrapper since everything is in one line */
+        .session-header {
+            display: contents;
+        }
+
+        .session-date {
+            color: var(--color-accent);
+            font-weight: 600;
+            font-size: 0.9rem;
+        }
+
+        .session-paper {
+            font-family: var(--font-display);
+            font-size: 1rem;
+            color: var(--color-text);
+            margin: 0;
+            line-height: 1.4;
+        }
+
+        .session-paper a {
+            color: var(--color-text);
+            text-decoration: none;
+            transition: color 0.2s ease;
+        }
+
+        .session-paper a:hover {
+            color: var(--color-accent);
+            text-decoration: underline;
+        }
+
+        .session-presenter {
+            color: var(--color-text-muted);
+            font-size: 0.9rem;
+        }
+
+        .session-institution {
+            color: var(--color-text-muted);
+            font-size: 0.85rem;
+        }
+
+        .loading-message, .error-message {
+            text-align: center;
+            padding: 3rem;
+            color: var(--color-text-muted);
+            background: var(--color-bg-alt);
+            border-radius: 12px;
+            border: 1px solid var(--color-border);
+        }
+
+        /* Responsive: Stack on mobile */
+        @media (max-width: 900px) {
+            .session-card {
+                grid-template-columns: 1fr;
+                gap: 0.5rem;
+                padding: 1.25rem 1.5rem;
+            }
+            
+            .session-date {
+                font-weight: 700;
+            }
+        }
         /* Join Section */
         #join {
             background: linear-gradient(135deg, var(--color-accent) 0%, var(--color-accent-light) 100%);
@@ -726,6 +829,194 @@
                 font-size: 1.5rem;
             }
         }
+/* =============================================================================
+   SESSIONS SECTION STYLES
+   Add these styles to your existing <style> section in index.html
+   ============================================================================= */
+
+/* Sessions Group Headers */
+.sessions-group {
+    margin-bottom: 2rem;
+}
+
+.sessions-group:last-child {
+    margin-bottom: 0;
+}
+
+.sessions-group-title {
+    font-family: var(--font-display);
+    font-size: 1.25rem;
+    font-weight: 400;
+    color: var(--color-text-muted);
+    margin-bottom: 1rem;
+    padding-bottom: 0.5rem;
+    border-bottom: 1px solid var(--color-border);
+}
+
+/* Session Cards */
+.session-card {
+    display: grid;
+    grid-template-columns: 140px 1fr 180px 150px 48px;
+    gap: 1rem;
+    align-items: center;
+    padding: 1rem 1.25rem;
+    background: var(--color-bg-alt);
+    border: 1px solid var(--color-border);
+    border-radius: 12px;
+    margin-bottom: 0.75rem;
+    transition: all 0.2s ease;
+}
+
+.session-card:hover {
+    border-color: var(--color-accent-light);
+    box-shadow: 0 4px 12px rgba(45, 90, 123, 0.08);
+}
+
+.session-card.upcoming {
+    background: linear-gradient(135deg, var(--color-highlight) 0%, var(--color-bg-alt) 100%);
+    border-color: var(--color-accent-light);
+}
+
+.session-card.past {
+    opacity: 0.85;
+}
+
+.session-card.past:hover {
+    opacity: 1;
+}
+
+/* Session Card Elements */
+.session-date {
+    font-weight: 600;
+    color: var(--color-text);
+    font-size: 0.9rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.35rem;
+}
+
+.upcoming-badge {
+    display: inline-block;
+    background: var(--color-accent);
+    color: white;
+    font-size: 0.7rem;
+    font-weight: 600;
+    padding: 0.2rem 0.5rem;
+    border-radius: 4px;
+    text-transform: uppercase;
+    letter-spacing: 0.03em;
+    width: fit-content;
+}
+
+.session-paper {
+    font-size: 0.95rem;
+    color: var(--color-text);
+}
+
+.session-paper a {
+    color: var(--color-accent);
+    text-decoration: none;
+    transition: color 0.2s ease;
+}
+
+.session-paper a:hover {
+    color: var(--color-accent-light);
+    text-decoration: underline;
+}
+
+.session-presenter {
+    font-size: 0.9rem;
+    color: var(--color-text-muted);
+    font-weight: 500;
+}
+
+.session-institution {
+    font-size: 0.85rem;
+    color: var(--color-text-muted);
+    opacity: 0.8;
+}
+
+.session-actions {
+    display: flex;
+    justify-content: flex-end;
+}
+
+/* Calendar Button */
+.calendar-btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 36px;
+    height: 36px;
+    background: var(--color-accent);
+    color: white;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.calendar-btn:hover {
+    background: var(--color-accent-light);
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(45, 90, 123, 0.25);
+}
+
+.calendar-btn svg {
+    width: 18px;
+    height: 18px;
+}
+
+/* Loading and Error States */
+.loading-message,
+.error-message {
+    text-align: center;
+    padding: 3rem 2rem;
+    color: var(--color-text-muted);
+}
+
+.error-message {
+    background: var(--color-bg-alt);
+    border-radius: 12px;
+    border: 1px solid var(--color-border);
+}
+
+/* Responsive Design */
+@media (max-width: 1000px) {
+    .session-card {
+        grid-template-columns: 1fr;
+        gap: 0.5rem;
+    }
+    
+    .session-date {
+        flex-direction: row;
+        align-items: center;
+        gap: 0.75rem;
+    }
+    
+    .session-actions {
+        justify-content: flex-start;
+        margin-top: 0.5rem;
+    }
+    
+    .calendar-btn {
+        width: auto;
+        padding: 0.5rem 1rem;
+        gap: 0.5rem;
+    }
+    
+    .calendar-btn::after {
+        content: 'Add to Calendar';
+        font-size: 0.85rem;
+        font-weight: 500;
+    }
+}
+
+@media (max-width: 600px) {
+    .session-card {
+        padding: 1rem;
+    }
+}
     </style>
 </head>
 <body>
@@ -736,6 +1027,7 @@
                 <li><a href="#about">About</a></li>
                 <li><a href="#research">Research</a></li>
                 <li><a href="#activities">Activities</a></li>
+                <li><a href="#sessions">Sessions</a></li>
                 <li><a href="#join">Join Us</a></li>
             </ul>
         </div>
@@ -857,6 +1149,17 @@
             </div>
         </div>
     </section>
+    <section id="sessions">
+    <div class="container">
+        <div class="section-header">
+            <h2>Sessions</h2>
+            <p>Scheduled and past sessions from our biweekly reading group.</p>
+        </div>
+        <div class="sessions-list" id="sessions-list">
+            <div class="loading-message">Loading past sessions...</div>
+        </div>
+    </div>
+</section>
 
     <section id="join">
         <div class="container">
@@ -1561,13 +1864,14 @@
                     <li><a href="#about">About</a></li>
                     <li><a href="#research">Research Areas</a></li>
                     <li><a href="#activities">Activities</a></li>
+                    <li><a href="#sessions">Past Sessions</a></li>
                     <li><a href="#join">Join Us</a></li>
                 </ul>
             </div>
             <div class="footer-links">
                 <h4>Contact</h4>
                 <ul>
-                    <li><a href="mailto:jens.lundell@utu.fi">jens.lundell@utu.fi</a></li>
+                    <li><a href="/cdn-cgi/l/email-protection#7218171c015c1e071c16171e1e320706075c141b"><span class="__cf_email__" data-cfemail="8ae0efe4f9a4e6ffe4eeefe6e6cafffeffa4ece3">[email&#160;protected]</span></a></li>
                     <li><a href="https://jenslundell.ai" target="_blank">jenslundell.ai</a></li>
                     <li><a href="https://www.utu.fi/en" target="_blank">University of Turku</a></li>
                 </ul>
@@ -1578,32 +1882,6 @@
         </div>
     </footer>
 
-    <script>
-        // Modal functionality
-        function openModal() {
-            document.getElementById('signup-modal').classList.add('active');
-            document.body.style.overflow = 'hidden';
-        }
-
-        function closeModal() {
-            document.getElementById('signup-modal').classList.remove('active');
-            document.body.style.overflow = 'auto';
-        }
-
-        // Close modal when clicking outside of it
-        window.onclick = function(event) {
-            const modal = document.getElementById('signup-modal');
-            if (event.target === modal) {
-                closeModal();
-            }
-        }
-
-        // Close modal on escape key
-        document.addEventListener('keydown', function(event) {
-            if (event.key === 'Escape') {
-                closeModal();
-            }
-        });
-    </script>
+    <script src="nordmanip-features.js"></script>
 </body>
 </html>
